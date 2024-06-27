@@ -12,7 +12,7 @@ source venv/bin/activate
 **Install Packages**
 
 ```shell
-pip install --upgrade django djangorestframework pre-commit
+pip install --upgrade django djangorestframework django-redis hiredis django-cors-headers django-filter pre-commit
 
 pip install -r requirements.txt
 pre-commit install
@@ -49,6 +49,7 @@ python manage.py createsuperuser --username admin --email admin@example.com
 **Runserver**
 
 ```shell
+docker-compose -f backend.yaml up -d
 python manage.py runserver
 ```
 
@@ -57,7 +58,7 @@ python manage.py runserver
 _Dump data for specific models within an app_
 
 ```shell
-python manage.py dumpdata inventory.category inventory.inventory customer.customer order.cart order.order > seed.json
+python manage.py dumpdata inventory.category inventory.inventory > seed.json
 ```
 
 _Load fixtures into the database_

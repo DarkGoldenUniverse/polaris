@@ -1,0 +1,15 @@
+# this is the docker compose file for local development when user runs below command
+# ./bin/setup
+
+services:
+  redis:
+    restart: always
+    image: redis
+    container_name: polaris_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - polaris_redis_data:/data
+
+volumes:
+  polaris_redis_data:
