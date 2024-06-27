@@ -1,7 +1,6 @@
+import binascii
 import hashlib
 from os import urandom as generate_bytes
-
-import binascii
 
 
 def create_token_string(character_length: int) -> str:

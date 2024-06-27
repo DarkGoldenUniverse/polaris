@@ -1,9 +1,10 @@
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 
-from account.serializers import UserLoginSerializer, UserSerializer
+from account.v1.serializers import UserLoginSerializer, UserSerializer
 from services.auth import CacheSession
 
 
@@ -31,6 +32,8 @@ class UserLoginAPIView(CreateAPIView):
 
 
 class UserLogoutAPIView(CreateAPIView):
+    authentication_classes = [SessionAuthentication]
+    serializer_class = UserSerializer
 
     def post(self, request, *args, **kwargs):
         request.session.delete()

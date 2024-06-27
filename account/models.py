@@ -7,11 +7,11 @@ class User(auth_models.AbstractUser):
     phone_number = models.CharField(
         null=False,
         blank=False,
-        max_length=15,
+        max_length=13,
         validators=[
             validators.RegexValidator(
-                regex=r"^[0-9]{12,15}$",
-                message="Please enter a phone number between 12 and 15 digits long, eg: 91987654321.",
+                regex=r"^[0-9]{10,13}$",
+                message="Please enter a phone number between 10 and 13 digits long, eg: 987654321.",
             )
         ],
     )

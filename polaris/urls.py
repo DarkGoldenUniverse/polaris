@@ -17,8 +17,29 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import RedirectView
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+# API
 urlpatterns = [
+    path("api/v1/", include(("account.v1.urls", "account"), namespace="accounts.v1")),
+    path("api/v1/", include(("inventory.v1.urls", "inventory"), namespace="inventories.v1")),
+]
+
+# Page
+urlpatterns += [
     path("admin/", admin.site.urls),
-    path("", include(("account.urls", "account"), namespace="accounts")),
+]
+
+# Swagger
+urlpatterns += [
+    path("", SpectacularSwaggerView.as_view(), name="swagger"),
+    path("schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("redoc/", SpectacularRedocView.as_view(), name="redoc"),
+]
+
+# File
+urlpatterns += [
+    path("favicon.ico", RedirectView.as_view(url="static/favicon/favicon-32x32.png", permanent=True)),
+    path("apple-touch-icon.png", RedirectView.as_view(url="static/favicon/apple-touch-icon.png", permanent=True)),
 ]
