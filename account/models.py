@@ -29,7 +29,7 @@ class User(auth_models.AbstractUser):
 
 class Address(models.Model):
     address = models.CharField(max_length=200, null=True, blank=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="user_address")
 
     class Meta:
         verbose_name_plural = "addresses"

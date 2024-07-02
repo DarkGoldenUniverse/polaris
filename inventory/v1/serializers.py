@@ -30,7 +30,7 @@ class InventorySerializer(serializers.ModelSerializer):
             "executed_amount",
             "remaining_amount",
             "unit",
-            "note",
+            "comment",
             "image_url",
             "description",
             "category",

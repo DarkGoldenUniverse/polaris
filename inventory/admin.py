@@ -30,15 +30,15 @@ class CategoryForm(forms.ModelForm):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     form = CategoryForm
-    list_display = ("id", "path", "name", "parent")
-    list_display_links = ("path",)
+    list_display = ["id", "path", "name", "parent"]
+    list_display_links = ["path"]
     search_fields = list_display
-    list_filter = ("path",)
+    list_filter = ["path"]
 
 
 @admin.register(Store)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("id", "name")
+    list_display = ["id", "name"]
 
 
 class InventoryAdminForm(forms.ModelForm):
@@ -86,16 +86,17 @@ class InventoryAdminForm(forms.ModelForm):
 @admin.register(Inventory)
 class InventoryAdmin(admin.ModelAdmin):
     form = InventoryAdminForm
-    list_display = ("id", "code", "name", "category", "visible", "price", "amount", "executed_amount")
-    list_display_links = ("code", "name")
-    search_fields = ("code", "name", "category")
-    list_filter = ("category", "visible")
-    fieldsets = (
-        (None, {"fields": ("visible", "code", "name", "store", "category")}),
+    list_display = ["id", "code", "name", "category", "visible", "price", "amount", "executed_amount"]
+    list_display_links = ["code", "name"]
+    search_fields = ["code", "name", "category"]
+    list_filter = ["visible", "store", "category"]
+    fieldsets = [
+        ("Basic Detail", {"classes": ["wide"], "fields": ["visible", "code", "name", "store", "category"]}),
         (
-            "Product info",
+            "Price and Amount Detail",
             {
-                "fields": (
+                "classes": ["wide"],
+                "fields": [
                     "max_price",
                     "price",
                     "unit",
@@ -103,9 +104,9 @@ class InventoryAdmin(admin.ModelAdmin):
                     "amount_change",
                     "executed_amount",
                     "executed_amount_change",
-                )
+                ],
             },
         ),
-        ("Additional Details", {"classes": ("collapse",), "fields": ("note", "image_url", "description")}),
-    )
-    readonly_fields = ("amount", "executed_amount")
+        ("Additional Details", {"classes": ["collapse"], "fields": ["image_url", "comment", "description"]}),
+    ]
+    readonly_fields = ["amount", "executed_amount"]

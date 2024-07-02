@@ -7,7 +7,7 @@ UNIT_MAPPING = [
     ("g", "gram"),
     ("l", "L"),
     ("ml", "mL"),
-    ("p", "Pack"),
+    ("pack", "Pack"),
 ]
 
 
@@ -63,6 +63,7 @@ class Inventory(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0,
+        editable=True,
         validators=[validators.MinValueValidator(0)],
         verbose_name="Maximum Price (MRP)",
     )
@@ -70,22 +71,29 @@ class Inventory(models.Model):
         max_digits=8,
         decimal_places=2,
         default=0,
+        editable=True,
         validators=[validators.MinValueValidator(0)],
         verbose_name="Selling Price",
     )
     amount = models.DecimalField(
-        max_digits=8, decimal_places=3, default=0, validators=[validators.MinValueValidator(0)], verbose_name="Amount"
+        max_digits=8,
+        decimal_places=3,
+        default=0,
+        editable=False,
+        validators=[validators.MinValueValidator(0)],
+        verbose_name="Original Amount",
     )
     executed_amount = models.DecimalField(
         max_digits=8,
         decimal_places=3,
         default=0,
+        editable=False,
         validators=[validators.MinValueValidator(0)],
         verbose_name="Executed Amount",
     )
     unit = models.CharField(max_length=5, choices=UNIT_MAPPING)
 
-    note = models.TextField(blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
@@ -94,6 +102,7 @@ class Inventory(models.Model):
 
     class Meta:
         verbose_name_plural = "inventories"
+        ordering = ["name"]
 
     def __str__(self):
         return self.name

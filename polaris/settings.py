@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Apps
     "account",
     "inventory",
+    "order",
 ]
 
 MIDDLEWARE = [
@@ -159,21 +160,59 @@ CACHES = {
 
 LOGIN_URL = "/api/v1/accounts/login"
 
+# Logger
+# https://docs.djangoproject.com/en/5.0/ref/settings/#logging
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
         },
     },
-    # 'loggers': {
-    #     'django.db.backends': {
-    #         'handlers': ['console'],
-    #         'level': 'DEBUG',
-    #     },
-    # },
+    "formatters": {
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}][{levelname}]: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+        },
+        "django.server": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "django.server",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "mail_admins"],
+            "level": "INFO",
+        },
+        "django.server": {
+            "handlers": ["django.server"],
+            "level": os.getenv("LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+        # "django.db.backends": {
+        #     "handlers": ["console"],
+        #     "level": "DEBUG",
+        # },
+    },
 }
 
 # Using cached sessions

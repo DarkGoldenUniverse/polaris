@@ -31,7 +31,7 @@ imageUrls = [
     "https://example.com/images/canola_oil.jpg",
 ]
 
-UNIT_MAPPING = ["kg", "g", "l", "ml", "p"]
+UNIT_MAPPING = ["kg", "g", "l", "ml", "pack"]
 
 # Read from CSV file
 with open("inventory_data.csv", newline="") as csvfile:
