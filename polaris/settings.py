@@ -33,7 +33,6 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "http://127.0.0.1:8000").split(",")
 # Application definition
 
 INSTALLED_APPS = [
-    # Default
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -126,7 +125,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+# Static files Directory
 # https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-STATICFILES_DIRS
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -286,6 +287,6 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "Polaris API",
     "DESCRIPTION": "Polaris API",
-    "VERSION": "1.0.0",
+    "VERSION": "v2.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
