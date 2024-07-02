@@ -2,7 +2,7 @@ from django.db.models import Q
 from rest_framework import generics
 
 from inventory.models import Category, Inventory
-from inventory.v1.serializers import CategorySerializer, InventorySerializer
+from inventory.v2.serializers import CategorySerializer, InventorySerializer
 
 
 class CategoryListAPIView(generics.ListAPIView):

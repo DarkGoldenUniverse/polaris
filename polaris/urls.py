@@ -22,8 +22,9 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 # API
 urlpatterns = [
-    path("api/v1/", include(("account.v1.urls", "account"), namespace="accounts.v1")),
-    path("api/v1/", include(("inventory.v1.urls", "inventory"), namespace="inventories.v1")),
+    path("api/", include(("account.urls", "account"), namespace="account")),
+    path("api/", include(("inventory.urls", "inventory"), namespace="inventory")),
+    path("api/", include(("order.urls", "order"), namespace="order")),
 ]
 
 # Page

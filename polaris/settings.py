@@ -158,7 +158,7 @@ CACHES = {
 # Login
 # https://docs.djangoproject.com/en/5.0/ref/settings/#login-url
 
-LOGIN_URL = "/api/v1/accounts/login"
+LOGIN_URL = "/api/v2/accounts/login"
 
 # Logger
 # https://docs.djangoproject.com/en/5.0/ref/settings/#logging

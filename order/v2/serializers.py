@@ -1,21 +1,15 @@
 from rest_framework import serializers
 
 from inventory.models import UNIT_MAPPING
-from order.models import Order, OrderItem
+from order.models import Order, OrderItem, ORDER_STATUS_MAPPING, ORDER_ITEM_STATUS_MAPPING
 from services.serializer import CustomChoiceField
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    parent = serializers.StringRelatedField()
-
-    class Meta:
-        model = Order
-        fields = ["id", "address", "status", "user", "created_by"]
-        read_only_fields = ["id", "created_by"]
-
-
 class OrderItemSerializer(serializers.ModelSerializer):
+    assign_to = serializers.StringRelatedField()
+    created_by = serializers.StringRelatedField()
     unit = CustomChoiceField(choices=UNIT_MAPPING)
+    status = CustomChoiceField(choices=ORDER_ITEM_STATUS_MAPPING)
 
     class Meta:
         model = OrderItem
@@ -34,3 +28,14 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "created_by",
         ]
         read_only_fields = ["id", "code", "name", "price", "unit", "created_by"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField()
+    status = CustomChoiceField(choices=ORDER_STATUS_MAPPING)
+    items = OrderItemSerializer(many=True)
+
+    class Meta:
+        model = Order
+        fields = ["id", "address", "status", "user", "created_by", "items"]
+        read_only_fields = ["id", "created_by"]
