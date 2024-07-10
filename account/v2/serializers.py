@@ -1,19 +1,8 @@
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
 
-from account.models import Address
-
-
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = ["id", "address"]
-        read_only_fields = ["id"]
-
 
 class UserSerializer(serializers.ModelSerializer):
-    # address = serializers.PrimaryKeyRelatedField(queryset=Address.objects.all(), many=True)
-
     class Meta:
         model = get_user_model()
         fields = [
@@ -22,9 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "email",
             "username",
-            "phone_number",
             "additional_data",
-            # "address",
         ]
         read_only_fields = ["id", "email", "username", "additional_data"]
 

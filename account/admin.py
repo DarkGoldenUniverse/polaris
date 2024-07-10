@@ -2,20 +2,18 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from account.models import Address
-
 
 @admin.register(get_user_model())
 class UserAdmin(BaseUserAdmin):
     model = get_user_model()
-    list_display = ["username", "email", "phone_number", "first_name", "is_staff"]
+    list_display = ["username", "email", "first_name", "is_staff"]
     list_display_links = ["username", "email"]
     list_filter = ["is_active", "is_staff", "is_superuser", "groups"]
     search_fields = ["username", "first_name", "last_name", "email"]
     ordering = ["id", "is_staff"]
     fieldsets = [
         ("Basic Detail", {"classes": ["wide"], "fields": ["username", "password"]}),
-        ("Personal Detail", {"classes": ["wide"], "fields": ["first_name", "last_name", "email", "phone_number"]}),
+        ("Personal Detail", {"classes": ["wide"], "fields": ["first_name", "last_name", "email"]}),
         ("Additional Details", {"classes": ["wide"], "fields": ["additional_data"]}),
         (
             "Permissions",
@@ -49,11 +47,3 @@ class UserAdmin(BaseUserAdmin):
                 readonly_fields += ["username", "password", "email", "is_active", "groups"]
 
         return readonly_fields
-
-
-@admin.register(Address)
-class AddressAdmin(admin.ModelAdmin):
-    list_display = ["id", "address", "user"]
-    list_display_links = ["id"]
-    search_fields = list_display
-    list_filter = ["address", "user"]

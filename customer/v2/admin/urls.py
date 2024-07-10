@@ -1,7 +1,8 @@
 from django.urls import path
 
-from account.v2.resource.views import UserDetailApiView
+from customer.v2.admin.views import AdminCustomerListAPIView, AdminCustomerDetailAPIView
 
 urlpatterns = [
-    path("customers", UserDetailApiView.as_view(), name="customers"),
+    path("customers", AdminCustomerListAPIView.as_view(), name="customer_list_create"),
+    path("customers/<int:pk>", AdminCustomerDetailAPIView.as_view(), name="customer_detail"),
 ]

@@ -23,6 +23,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 # API
 urlpatterns = [
     path("api/", include(("account.urls", "account"), namespace="account")),
+    path("api/", include(("customer.urls", "customer"), namespace="customer")),
     path("api/", include(("inventory.urls", "inventory"), namespace="inventory")),
     path("api/", include(("order.urls", "order"), namespace="order")),
 ]

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-x9x*hl2v(%3bn2vkf+#nj8#1z9!aj#_ht@2v%q=9#*6e+2l5cw")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool_dict.get(os.getenv("DEBUG", "False").lower())
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # Apps
     "account",
+    "customer",
     "inventory",
     "order",
 ]
