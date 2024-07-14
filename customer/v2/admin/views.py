@@ -4,7 +4,7 @@ from customer.models import Customer
 from customer.v2.admin.serializers import AdminCustomerSerializer
 
 
-class AdminCustomerListAPIView(ListCreateAPIView):
+class AdminCustomerListCreateAPIView(ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = AdminCustomerSerializer
 

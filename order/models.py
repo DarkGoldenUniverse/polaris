@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from customer.models import Customer
 from inventory.models import Inventory
 
 ORDER_STATUS_MAPPING = [
@@ -24,10 +25,8 @@ class Order(models.Model):
 
     status = models.CharField(max_length=5, choices=ORDER_STATUS_MAPPING, default="0")
 
-    user = models.ForeignKey(get_user_model(), null=True, on_delete=models.SET_NULL, related_name="user")
-    created_by = models.ForeignKey(
-        get_user_model(), null=True, on_delete=models.SET_NULL, related_name="order_created_by"
-    )
+    customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL, related_name="customer")
+    creator = models.ForeignKey(get_user_model(), null=True, on_delete=models.SET_NULL, related_name="order_creator")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -37,10 +36,10 @@ class Order(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"ORDER{self.id:05d}"
+        return f"{self.id:05d}-{self.customer}"
 
     @property
-    def items(self):
+    def order_items(self):
         return self.order_item.all()
 
 
@@ -57,11 +56,11 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE, related_name="order_item")
     product = models.ForeignKey(Inventory, null=True, on_delete=models.SET_NULL, related_name="product")
 
-    assign_to = models.ForeignKey(
-        get_user_model(), null=True, on_delete=models.SET_NULL, related_name="order_item_assign_to"
+    executor = models.ForeignKey(
+        get_user_model(), null=True, on_delete=models.SET_NULL, related_name="order_item_executor"
     )
-    created_by = models.ForeignKey(
-        get_user_model(), null=True, on_delete=models.SET_NULL, related_name="order_item_created_by"
+    creator = models.ForeignKey(
+        get_user_model(), null=True, on_delete=models.SET_NULL, related_name="order_item_creator"
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

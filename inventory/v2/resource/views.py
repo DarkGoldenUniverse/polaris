@@ -6,7 +6,7 @@ from inventory.v2.serializers import CategorySerializer, InventorySerializer
 
 
 class CategoryListAPIView(generics.ListAPIView):
-    queryset = Category.objects.all().order_by("id")
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def get_queryset(self):
@@ -22,7 +22,7 @@ class CategoryListAPIView(generics.ListAPIView):
 
 
 class InventoryListAPIView(generics.ListAPIView):
-    queryset = Inventory.objects.filter(visible=True).order_by("code")
+    queryset = Inventory.objects.filter(visible=True)
     serializer_class = InventorySerializer
     ordering_fields = ["name"]
     ordering = ["name"]

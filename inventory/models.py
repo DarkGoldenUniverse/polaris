@@ -11,6 +11,16 @@ UNIT_MAPPING = [
 ]
 
 
+class Store(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "stores"
+
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     name = models.CharField(
         max_length=50,
@@ -27,6 +37,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "categories"
+        ordering = ["path"]
 
     def __str__(self):
         return self.path
@@ -44,29 +55,11 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
 
-class Store(models.Model):
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name_plural = "stores"
-
-    def __str__(self):
-        return self.name
-
-
 class Inventory(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=10, unique=True)
     visible = models.BooleanField(default=False)
 
-    max_price = models.DecimalField(
-        max_digits=8,
-        decimal_places=2,
-        default=0,
-        editable=True,
-        validators=[validators.MinValueValidator(0)],
-        verbose_name="Maximum Price (MRP)",
-    )
     price = models.DecimalField(
         max_digits=8,
         decimal_places=2,
@@ -74,6 +67,14 @@ class Inventory(models.Model):
         editable=True,
         validators=[validators.MinValueValidator(0)],
         verbose_name="Selling Price",
+    )
+    max_price = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        default=0,
+        editable=True,
+        validators=[validators.MinValueValidator(0)],
+        verbose_name="Maximum Price (MRP)",
     )
     amount = models.DecimalField(
         max_digits=8,

@@ -33,7 +33,8 @@ source venv/bin/activate
 ### 2. Install Packages
 
 ```shell
-pip install --upgrade django djangorestframework django-redis hiredis django-cors-headers pre-commit drf-spectacular faker
+pip install --upgrade django djangorestframework django-redis hiredis django-cors-headers pre-commit drf-spectacular
+pip install --upgrade factory-boy
 ```
 
 `OR`

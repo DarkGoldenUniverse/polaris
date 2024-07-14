@@ -6,7 +6,7 @@ class User(auth_models.AbstractUser):
     additional_data = models.JSONField(null=True, blank=True, default=dict)
 
     def __str__(self):
-        return self.username
+        return f"{self.first_name} {self.last_name}"
 
     def save(self, *args, **kwargs):
         if not self.username:

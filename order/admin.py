@@ -7,8 +7,8 @@ from order.models import Order, OrderItem
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "status"]
-    list_display_links = ["id", "user"]
+    list_display = ["id", "customer", "status"]
+    list_display_links = ["id", "customer"]
     search_fields = list_display
     list_filter = ["status"]
     readonly_fields = ["created_at", "updated_at"]
@@ -55,7 +55,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         "price",
         "amount",
         "status",
-        "assign_to",
+        "executor",
     ]
     list_display_links = ["order", "code", "name"]
     search_fields = list_display
@@ -64,5 +64,5 @@ class OrderItemAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Basic Detail", {"fields": ["status", "order", "product", "amount_change"]}),
         ("Product Detail", {"fields": ["code", "name", "price", "amount", "unit"]}),
-        ("Additional Details", {"fields": ["assign_to", "created_by", "created_at", "updated_at"]}),
+        ("Additional Details", {"fields": ["executor", "creator", "created_at", "updated_at"]}),
     ]

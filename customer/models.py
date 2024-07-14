@@ -42,6 +42,10 @@ class Customer(models.Model):
         self.full_clean()  # Perform full validation
         super().save(*args, **kwargs)
 
+    @property
+    def username(self):
+        return self.phone_number
+
 
 class Address(models.Model):
     address = models.CharField(max_length=200, null=True, blank=True)
