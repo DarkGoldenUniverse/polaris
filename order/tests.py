@@ -1,5 +1,3 @@
-import pdb
-
 from django.urls import reverse
 from faker import Faker
 from rest_framework import status
@@ -20,17 +18,17 @@ class AdminOrderListCreateAPIViewTest(CustomAPITestCase):
         self.user = UserFactory()
         self.customer = CustomerFactory()
         self.address = AddressFactory(customer=self.customer)
-        self.inventory = InventoryFactory(amount=1000, executed_amount=0, visible=True)
-        self.order1 = OrderFactory(customer=self.customer, creator=self.user)
-        self.order2 = OrderFactory(customer=self.customer, creator=self.user)
+        self.inventory = InventoryFactory(amount="1000.564", executed_amount="0", price="35.54", visible=True)
+        self.order1 = OrderFactory(customer=self.customer, creator=self.user, status="0")
+        self.order2 = OrderFactory(customer=self.customer, creator=self.user, status="1")
         self.order1_item1 = OrderItemFactory(
-            order=self.order1, product=self.inventory, executor=self.user, creator=self.user
+            order=self.order1, product=self.inventory, executor=self.user, creator=self.user, amount="30.358"
         )
         self.order1_item2 = OrderItemFactory(
-            order=self.order1, product=self.inventory, executor=self.user, creator=self.user
+            order=self.order1, product=self.inventory, executor=self.user, creator=self.user, amount="31.226"
         )
         self.order2_item1 = OrderItemFactory(
-            order=self.order2, product=self.inventory, executor=self.user, creator=self.user
+            order=self.order2, product=self.inventory, executor=self.user, creator=self.user, amount="32.432"
         )
 
         self.client = APIClient()
@@ -42,39 +40,49 @@ class AdminOrderListCreateAPIViewTest(CustomAPITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Order.objects.count(), 2)
-        # Assuming you want to verify the details of the first order in the response
+
         expected_response = {
-            "id": self.order1.id,
-            "address": self.order1.address,
-            "status": self.order1.status,
+            "id": self.order2.id,
+            "address": self.order2.address,
+            "status": "in_progress",
+            "creator": self.user.id,
+        }
+        expected_customer_response = {
+            "id": self.customer.id,
+            "name": self.customer.name,
+            "phone_number": self.customer.phone_number,
+            "additional_data": self.customer.additional_data,
+            "addresses": [{"id": self.address.id, "address": self.address.address}],
         }
         expected_order_item_response = {
-            "order_items": [
-                {
-                    "id": self.order1_item1.id,
-                    "code": self.order1_item1.code,
-                    "name": self.order1_item1.name,
-                    "price": self.order1_item1.price,
-                    "amount": self.order1_item1.amount,
-                    "unit": self.order1_item1.unit,
-                    "comment": self.order1_item1.comment,
-                    "status": self.order1_item1.status,
-                    "order": self.order1_item1.order.id,
-                    "product": self.order1_item1.product.id,
-                },
-                {
-                    "id": self.order1_item2.id,
-                    "code": self.order1_item2.code,
-                    "name": self.order1_item2.name,
-                    "price": self.order1_item2.price,
-                    "amount": self.order1_item2.amount,
-                    "unit": self.order1_item2.unit,
-                    "comment": self.order1_item2.comment,
-                    "status": self.order1_item2.status,
-                    "order": self.order1_item2.order.id,
-                    "product": self.order1_item2.product.id,
-                },
-            ],
+            "id": self.order2_item1.id,
+            "code": self.inventory.code,
+            "name": self.inventory.name,
+            "price": "35.54",
+            "amount": "32.432",
+            "total": "1152.63328",
+            "comment": None,
+            "status": "pending",
+            "order": self.order2.id,
+            "product": self.inventory.id,
+            "executor": self.user.id,
+            "creator": self.user.id,
         }
-        pdb.set_trace()
-        # self.assertDictContainsSubset(expected_response, response.data[0])
+        expected_product_response = {
+            "id": self.inventory.id,
+            "name": self.inventory.name,
+            "code": self.inventory.code,
+            "visible": True,
+            "price": "35.54",
+            "max_price": str(self.inventory.max_price),
+            "unit": self.inventory.unit,
+            "comment": None,
+            "image_url": None,
+            "description": None,
+            "store": self.inventory.store.name,
+            "category": self.inventory.category.path,
+        }
+        self.assertDictIncludes(response.data[0], expected_response)
+        self.assertDictIncludes(response.data[0]["customer"], expected_customer_response)
+        self.assertDictIncludes(response.data[0]["order_items"][0], expected_order_item_response)
+        self.assertDictIncludes(response.data[0]["order_items"][0]["product_info"], expected_product_response)

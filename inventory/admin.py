@@ -4,6 +4,11 @@ from django.contrib import admin
 from inventory.models import Category, Inventory, Store
 
 
+@admin.register(Store)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["id", "name"]
+
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
@@ -34,11 +39,6 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display_links = ["path"]
     search_fields = list_display
     list_filter = ["path"]
-
-
-@admin.register(Store)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["id", "name"]
 
 
 class InventoryAdminForm(forms.ModelForm):

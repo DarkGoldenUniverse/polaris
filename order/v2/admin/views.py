@@ -1,10 +1,8 @@
-import pdb
-
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 
-from order.models import Order, ORDER_STATUS_MAPPING
+from order.models import Order, ORDER_STATUS_MAPPING, OrderItem
 from order.v2.admin.serializers import AdminOrderSerializer, AdminOrderItemSerializer
 
 # Create an inverted mapping dictionary
@@ -33,9 +31,9 @@ class AdminOrderListCreateAPIView(ListCreateAPIView):
         if customer is not None:
             queryset = queryset.filter(customer__phone_number=phone_number)
 
-        created_by = self.request.query_params.get("created_by")
-        if created_by is not None:
-            queryset = queryset.filter(created_by=created_by)
+        creator = self.request.query_params.get("creator")
+        if creator is not None:
+            queryset = queryset.filter(creator=creator)
 
         return queryset
 
@@ -62,3 +60,21 @@ class AdminOrderListCreateAPIView(ListCreateAPIView):
 class AdminOrderDetailAPIView(RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = AdminOrderSerializer
+
+
+class AdminOrderItemListCreateAPIView(ListAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = AdminOrderItemSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        executor = self.request.query_params.get("executor")
+        if executor is not None:
+            queryset = queryset.filter(executor=executor)
+
+        creator = self.request.query_params.get("creator")
+        if creator is not None:
+            queryset = queryset.filter(creator=creator)
+
+        return queryset

@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from account.models import User
 from customer.v2.admin.serializers import AdminCustomerSerializer
-from order.models import Order
 from order.v2.serializers import OrderItemSerializer, OrderSerializer
 
 
@@ -11,8 +10,8 @@ class AdminOrderItemSerializer(OrderItemSerializer):
     creator = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta(OrderItemSerializer.Meta):
-        fields = OrderItemSerializer.Meta.fields + ["executor", "creator"]
-        read_only_fields = OrderItemSerializer.Meta.read_only_fields + ["creator"]
+        fields = OrderItemSerializer.Meta.fields + ["product_info", "executor", "creator"]
+        read_only_fields = OrderItemSerializer.Meta.read_only_fields + ["product_info", "creator"]
 
 
 class AdminOrderSerializer(OrderSerializer):

@@ -11,4 +11,4 @@ class CustomAPITestCase(APITestCase):
 
         filtered_actual = {key: actual[key] for key in expected.keys()}
         if not expected == filtered_actual:
-            self.fail(f"Expected {expected}, but got {actual}")
+            self.fail(f"\nExpected \n{expected}, \nActual \n{actual}")

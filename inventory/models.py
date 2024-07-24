@@ -47,7 +47,6 @@ class Category(models.Model):
         super(Category, self).clean()
 
     def save(self, *args, **kwargs):
-        # Generate and set the path for the category
         if self.parent:
             self.path = f"{self.parent.path}.{self.name}"
         else:
@@ -98,8 +97,8 @@ class Inventory(models.Model):
     image_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
-    store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True, related_name="store")
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="category")
+    store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True, related_name="inventories")
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="inventories")
 
     class Meta:
         verbose_name_plural = "inventories"

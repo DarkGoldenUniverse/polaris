@@ -1,5 +1,5 @@
 # this is the docker compose file for local development when user runs below command
-# ./bin/setup
+# docker-compose -f backend.yaml up -d
 
 services:
   redis:

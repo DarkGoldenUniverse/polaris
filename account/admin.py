@@ -30,9 +30,17 @@ class UserAdmin(BaseUserAdmin):
         ),
         ("Important Dates", {"classes": ["collapse"], "fields": ["last_login", "date_joined"]}),
     ]
-    # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
-    # overrides get_fieldsets to use this attribute when creating a user.
-    add_fieldsets = [(None, {"classes": ["wide"], "fields": ["username", "email", "password1", "password2"]})]
+    # add_fieldsets is not a standard ModelAdmin attribute.
+    # UserAdmin overrides get_fieldsets to use this attribute when creating a user.
+    add_fieldsets = [
+        (
+            None,
+            {
+                "classes": ["wide"],
+                "fields": ["username", "first_name", "last_name", "email", "is_staff", "password1", "password2"],
+            },
+        )
+    ]
     readonly_fields = ["date_joined"]
 
     def get_readonly_fields(self, request, obj=None):

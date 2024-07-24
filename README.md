@@ -95,7 +95,7 @@ python manage.py runserver 0.0.0.0:8000
 _Dump data for specific models within an app_
 
 ```shell
-python manage.py dumpdata inventory.category inventory.store inventory.inventory order.order order.orderitem > seed.json
+python manage.py dumpdata inventory.store inventory.category inventory.inventory customer.customer order.order order.orderitem > seed.json
 ```
 
 ### 2. Load Seed Data from file

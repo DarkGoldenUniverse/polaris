@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 
@@ -13,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "additional_data",
         ]
-        read_only_fields = ["id", "email", "username", "additional_data"]
+        read_only_fields = ["id", "email", "username"]
 
 
 class UserLoginSerializer(serializers.Serializer):

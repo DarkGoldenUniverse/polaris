@@ -60,9 +60,9 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display_links = ["order", "code", "name"]
     search_fields = list_display
     list_filter = ["status"]
-    readonly_fields = ["code", "name", "price", "amount", "unit", "created_at", "updated_at"]
+    readonly_fields = ["code", "name", "price", "amount", "product_info", "created_at", "updated_at"]
     fieldsets = [
         ("Basic Detail", {"fields": ["status", "order", "product", "amount_change"]}),
-        ("Product Detail", {"fields": ["code", "name", "price", "amount", "unit"]}),
+        ("Product Detail", {"fields": ["code", "name", "price", "amount", "product_info"]}),
         ("Additional Details", {"fields": ["executor", "creator", "created_at", "updated_at"]}),
     ]
